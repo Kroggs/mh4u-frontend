@@ -3,6 +3,8 @@ import React, {useState} from "react";
 import { Form, Input, message } from "antd";
 import { Button } from "projex-ui";
 import Link from "next/link";
+import { regexEmail } from "../../../constants/regex";
+import { messages } from "@/constants/messages";
 
 const LoginForm = () => {
 
@@ -34,8 +36,8 @@ const LoginForm = () => {
                     hasFeedback
                     name="email"
                     rules={[
-                        {required: true, message: "nope"},
-                        {pattern: new RegExp('^[a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)*@[a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)*$'), message: "invalide"}
+                        {required: true, message: messages.form.error.requiredFields(['email'])},
+                        {pattern: regexEmail, message: messages.form.error.invalid('email')}
                     ]}
                 >
                     <Input
@@ -49,9 +51,9 @@ const LoginForm = () => {
                     hasFeedback
                     name="password"
                     rules={[
-                        {required: true, message: "mdp"},
-                        {min: 6, message: "charac min"},
-                        {max: 64, message: "charac max"}
+                        {required: true, message: messages.form.error.requiredFields(['mot de passe'])},
+                        {min: 6, message: messages.form.error.invalid('mot de passe', '6 caractères minimum')},
+                        {max: 64, message: messages.form.error.invalid('mot de passe', '64 caractères maximum')}
                     ]}
                 >
                     <Input.Password 
