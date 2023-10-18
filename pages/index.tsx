@@ -1,9 +1,11 @@
+import LoginForm from "@/src/components/Login/LoginForm";
+
 const Home = () => {
 
     return (
         <div className="page">
             <div>
-                <h1>Mes burnes</h1>
+                <LoginForm />
             </div>
         </div>
     );
