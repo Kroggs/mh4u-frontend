@@ -15,8 +15,7 @@ const LoginForm = () => {
 
     const onLogin = async (values: {password: string; email: string}) => {
         const {password, email} = values;
-
-
+        
     }
 
     return (
@@ -31,6 +30,7 @@ const LoginForm = () => {
                 }}
                 name="login"
                 scrollToFirstError
+                onFinish={onLogin}
             >
                 <Form.Item
                     hasFeedback
