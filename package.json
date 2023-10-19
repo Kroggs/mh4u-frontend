@@ -13,6 +13,7 @@
     "antd": "^5.10.1",
     "js-cookie": "^3.0.5",
     "next": "13.5.5",
+    "next-plugin-antd-less": "^1.8.0",
     "projex-ui": "^1.1.0",
     "react": "^18",
     "react-dom": "^18",
