@@ -5,8 +5,14 @@ import { Button } from "projex-ui";
 import Link from "next/link";
 import { regexEmail } from "../../../constants/regex";
 import { messages } from "@/constants/messages";
+import { login } from '../../../services/auth/login'
+import { isRequestSuccessful } from "@/utils/validatedRequestStatus";
+import { useDispatch } from "react-redux";
+import { setAuthState } from "@/store/reducers/authReducers";
 
 const LoginForm = () => {
+
+    const dispatch = useDispatch();
 
     const [form] = Form.useForm();
     
@@ -16,6 +22,22 @@ const LoginForm = () => {
     const onLogin = async (values: {password: string; email: string}) => {
         const {password, email} = values;
         
+        login(email, password)
+            .then((res) => {
+                setIsLoading(true);
+                if(isRequestSuccessful(res.status)){
+                    dispatch(setAuthState(true));
+                    message.success(messages.login.success());
+                }else{
+                    dispatch(setAuthState(false));
+                    setIsLoading(false);
+                    switch(res.status){
+                        case 400: message.error(messages.login.error.invalid); break;
+                        case 401: message.error(messages.login.error.inactive); break;
+                        default: message.error(messages.login.error.general); break;
+                    }
+                }
+            })
     }
 
     return (
