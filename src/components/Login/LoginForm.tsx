@@ -5,39 +5,50 @@ import { Button } from "projex-ui";
 import Link from "next/link";
 import { regexEmail } from "../../../constants/regex";
 import { messages } from "@/constants/messages";
-import { login } from '../../../services/auth/login'
+import { login } from "@/services/auth/login";
 import { isRequestSuccessful } from "@/utils/validatedRequestStatus";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setAuthState } from "@/store/reducers/authReducers";
+import { useRouter } from "next/router";
 
 const LoginForm = () => {
-
-    const dispatch = useDispatch();
 
     const [form] = Form.useForm();
     
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [email, setEmail] = useState<string>('');
 
+    const authState = useSelector(setAuthState);
+    const dispatch = useDispatch();
+
+    const router = useRouter();
+
+
     const onLogin = async (values: {password: string; email: string}) => {
         const {password, email} = values;
         
-        login(email, password)
-            .then((res) => {
-                setIsLoading(true);
-                if(isRequestSuccessful(res.status)){
-                    dispatch(setAuthState(true));
-                    message.success(messages.login.success());
-                }else{
-                    dispatch(setAuthState(false));
-                    setIsLoading(false);
-                    switch(res.status){
-                        case 400: message.error(messages.login.error.invalid); break;
-                        case 401: message.error(messages.login.error.inactive); break;
-                        default: message.error(messages.login.error.general); break;
-                    }
+        setIsLoading(true);
+
+        await login(email, password).then((res) => {
+            if(isRequestSuccessful(res.status)){
+                dispatch(setAuthState(true));
+                setIsLoading(false);
+                router.replace('/');
+            }else {
+                switch(res.status){
+                    case 401:
+                        message.error(messages.login.error.invalid);
+                        break;
+                    case 500:
+                        message.error(messages.login.error.server)
+                        break;
+                    default: 
+                        message.error(messages.login.error.general);
+                        break;
                 }
-            })
+                setIsLoading(false);
+            }
+        })
     }
 
     return (
@@ -46,10 +57,6 @@ const LoginForm = () => {
             <Form
                 form={form}
                 id="login"
-                initialValues={{
-                    email: '',
-                    password: '',
-                }}
                 name="login"
                 scrollToFirstError
                 onFinish={onLogin}

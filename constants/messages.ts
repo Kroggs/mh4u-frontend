@@ -18,7 +18,7 @@ export const messages = {
         success: (appName?: string): string => `Bienvenue ${appName ? `sur ${appName}` : ''}!`,
         error: {
             general: "Nous n'avons pas réussi à vous identifier...",
-            invalid: "L'email et/ou le mot de passe indiqué ne correspond pas aux formats acceptés.",
+            invalid: "email et/ou et mot de passe incorrect(s).",
             inactive: "L'email et/ou le mot de passe sont incorrects ou le compte associé est inactif (vérifiez vos mails pour l'activer).",
             server: "Votre compte a été activé mais vos informations n'ont pas pu être sauvegardées...",
         }
