@@ -9,6 +9,7 @@ import { login } from "@/services/auth/login";
 import { isRequestSuccessful } from "@/utils/validatedRequestStatus";
 import { useDispatch, useSelector } from "react-redux";
 import { setAuthState } from "@/store/reducers/authReducers";
+import { useRouter } from "next/router";
 
 const LoginForm = () => {
 
@@ -20,6 +21,9 @@ const LoginForm = () => {
     const authState = useSelector(setAuthState);
     const dispatch = useDispatch();
 
+    const router = useRouter();
+
+
     const onLogin = async (values: {password: string; email: string}) => {
         const {password, email} = values;
         
@@ -27,12 +31,22 @@ const LoginForm = () => {
 
         await login(email, password).then((res) => {
             if(isRequestSuccessful(res.status)){
-                message.success(messages.login.success('MH4U Project'));
                 dispatch(setAuthState(true));
                 setIsLoading(false);
+                router.replace('/');
             }else {
+                switch(res.status){
+                    case 401:
+                        message.error(messages.login.error.invalid);
+                        break;
+                    case 500:
+                        message.error(messages.login.error.server)
+                        break;
+                    default: 
+                        message.error(messages.login.error.general);
+                        break;
+                }
                 setIsLoading(false);
-                message.error(messages.login.error.general);
             }
         })
     }
