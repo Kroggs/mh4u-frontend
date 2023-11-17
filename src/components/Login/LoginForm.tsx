@@ -27,11 +27,12 @@ const LoginForm = () => {
 
         await login(email, password).then((res) => {
             if(isRequestSuccessful(res.status)){
-                message.success(messages.login.success('MH4U Project'))
-                setAuthState(true);
+                message.success(messages.login.success('MH4U Project'));
+                dispatch(setAuthState(true));
                 setIsLoading(false);
             }else {
                 setIsLoading(false);
+                message.error(messages.login.error.general);
             }
         })
     }
