@@ -5,7 +5,7 @@ import getConfig from "next/config";
 
 const { publicRuntimeConfig} = getConfig();
 
-export const login = (email: string, password: string): Promise<{status: number, data?: string}> => {
+export const login = (email: string, password: string): Promise<{status: number}> => {
 
     return fetch(`${publicRuntimeConfig.DIRECTUS_API}/auth/login`, {
         method: 'POST',
