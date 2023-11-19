@@ -18,10 +18,10 @@ const Authenticated = ({children}: Props) => {
     const router = useRouter();
     const authState = useSelector(selectAuthState);
 
-    const errorRedirect = () => {
+    function errorRedirect() {
         const href = window.location.href;
         message.error(messages.login.error.general);
-        router.push(publicRuntimeConfig.APP_NAME + 'login?r' + href, undefined, {shallow: true});;
+        router.push(publicRuntimeConfig.APP_URL + 'login', undefined, {shallow: true});
     }
 
     useEffect(() => {
@@ -38,13 +38,16 @@ const Authenticated = ({children}: Props) => {
                             errorRedirect();
                         }
                     }
-                )
+                ).catch((e) => {
+                    dispatch(setAuthState(false));
+                    errorRedirect();
+                });
             } catch(e) {
                 dispatch(setAuthState(false));
                 errorRedirect();
             }
         }
-    }, [dispatch, router])
+    }, [dispatch, authState])
 
 
     return <>{children}</>;
