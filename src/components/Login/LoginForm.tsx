@@ -8,7 +8,7 @@ import { messages } from "@/constants/messages";
 import { login } from "@/services/auth/login";
 import { isRequestSuccessful } from "@/utils/validatedRequestStatus";
 import { useDispatch, useSelector } from "react-redux";
-import { setAuthState } from "@/store/reducers/authReducers";
+import { selectAuthState, setAuthState } from "@/store/reducers/authReducers";
 import { useRouter } from "next/router";
 
 const LoginForm = () => {
@@ -18,7 +18,7 @@ const LoginForm = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [email, setEmail] = useState<string>('');
 
-    const authState = useSelector(setAuthState);
+    const authState = useSelector(selectAuthState);
     const dispatch = useDispatch();
 
     const router = useRouter();
