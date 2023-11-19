@@ -3,11 +3,13 @@ import React from "react";
 import { Provider } from "react-redux";
 import configureStore from '../store/store'
 import Head from "next/head";
+import Authenticated from "@/src/components/Authenticated/Authenticated";
 
 export default function App({Component, pageProps} : AppProps) {
 
     return (
         <Provider store={configureStore}>  
+            <Authenticated>
                 <Head>
                     <meta charSet="UTF-8"></meta>
                     <meta httpEquiv="X-UA-Compatible" content="IE=edge"/>
@@ -28,6 +30,7 @@ export default function App({Component, pageProps} : AppProps) {
                         <Component {...pageProps} />
                     </div>
                 </main>
+            </Authenticated>
         </Provider>
     );
 }
