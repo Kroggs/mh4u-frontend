@@ -12,18 +12,10 @@ const Home = () => {
 
     const authState = useSelector(selectAuthState);
 
-    useEffect(() => {
-        if(authState){
-            message.success(messages.login.success(publicRuntimeConfig?.APP_NAME))
-        }
-    }, [authState])
-
-    return authState ? (
+    return (
         <h1>
-            hey mec
+            Welcome ! 
         </h1>
-    ) : (
-        <LoginForm/>
     );
 }
 
