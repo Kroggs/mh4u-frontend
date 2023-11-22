@@ -21,7 +21,7 @@ const Authenticated = ({children}: Props) => {
     function errorRedirect() {
         const href = window.location.href;
         message.error(messages.login.error.general);
-        router.push(publicRuntimeConfig.APP_URL + 'login', undefined, {shallow: true});
+        router.push(publicRuntimeConfig.APP_URL + '/login', undefined, {shallow: true});
     }
 
     useEffect(() => {

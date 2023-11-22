@@ -10,11 +10,7 @@ export async function retrieveToken(): Promise<string | undefined> {
     let token = cookie.get('ds_access_token');
     if(!token) {
         if(isRefreshing) {
-            let tryCount = 1;
-            while(isRefreshing && tryCount <= 30){
-                await new Promise((done) => setTimeout(done, 100));
-                tryCount++;
-            }
+            await refreshToken();
             return cookie.get('ds_access_token');
         }
         isRefreshing = true;
